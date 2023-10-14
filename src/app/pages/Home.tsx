@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {  Container, Table } from 'react-bootstrap';
+import {  Container, Table, Button } from 'react-bootstrap';
 import { ModalPacintes } from '../components/ModalPacientes';
+import { useNavigate } from 'react-router-dom';
 import api from '../api/services/api';
 import { CalcularIdade } from '../components/CalcularIdade';
+import {FiTrash, FiUser} from 'react-icons/fi'
+
 
 
 
 
 export const Home: React.FC = () => {
   const [pacientes, setPacientes] = useState<PacienteProps[]>([]);
+  const navigate = useNavigate();
 
   // Função para carregar os pacientes da API 
   
@@ -28,6 +32,28 @@ export const Home: React.FC = () => {
       }
     }
   };
+
+  const handleExcluir = async(pacienteID: number) => {
+    
+    try{
+      await api.delete("/pacientes/" + pacienteID);
+      const updatedPacientes = pacientes.filter((paciente) => paciente.id !== pacienteID);
+      setPacientes(updatedPacientes);
+    } catch (e: any){
+      console.log("Erro ao excluir paciente", e.message)
+    }
+  }
+
+  const handleAtender = async(pacienteID: number) => {
+    try{
+      const response = await api.get("/pacientes/" + pacienteID)
+      const pacienteInfo = response.data.data
+      console.log(pacienteInfo.id)
+      navigate(`/atendimento/${pacienteInfo.id}`, { state: { paciente: pacienteInfo } });
+    } catch (e: any){
+      console.log("Erro ao excluir paciente", e.message)
+    }
+  }
 
   useEffect(() => {
     carregarPacientes();
@@ -60,6 +86,12 @@ export const Home: React.FC = () => {
               <td>{paciente.telefone}</td>
               <td><CalcularIdade data = {paciente.data_nascimento}/></td>
               <td>{paciente.condicao}</td>
+              <td>
+                <Button variant='danger' onClick={() =>handleExcluir(paciente.id)}><FiTrash /></Button>
+              </td>
+              <td>
+                <Button variant='primary' onClick={() =>handleAtender(paciente.id)}><FiUser /></Button>
+              </td>
               
               {/* Adicione mais colunas conforme necessário */}
             </tr>

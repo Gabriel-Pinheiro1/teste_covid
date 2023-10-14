@@ -1,5 +1,5 @@
 type PacienteProps = {
-    id?: number
+    id: number
     nome: string
     data_nascimento: string
     cpf: string
