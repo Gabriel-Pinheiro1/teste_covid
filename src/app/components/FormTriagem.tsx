@@ -1,12 +1,15 @@
 
 import { useState, useEffect } from 'react';
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button, Col, Row, Container} from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom';
 
 type formTriagemProps = {
   idade: any;
 }
 
 export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
+  
+    const [showForm, setShowForm] = useState(true);
     const [pressaoSis, setPressaoSis] = useState(0)
     const [pressaoDis, setPressaoDis] = useState(0)
     const [temperatura, setTemperatura] = useState('0')
@@ -17,7 +20,39 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
     const [msgResp, setMsgResp] = useState({Text: '', color: 'black'})
     const [msgTemp, setMsgTemp] = useState({Text: '', color: 'black'})
     const [msgCard, setMsgCard] = useState({Text: '', color: 'black'})
+    const [sintomas, setSintomas] = useState<SintomasProps> ({
+      febre: false,
+      coriza: false,
+      narizEntupido: false,
+      cansaco: false,
+      tosse: false,
+      dorCabeca: false,
+      dorCorpo: false,
+      dorGarganta: false,
+      malEstar: false,
+      dificuldadeRespirar: false,
+      dificuldadeLocomocao: false,
+      faltaPaladar: false,
+      faltaOlfato: false,
+      diarreia: false
+    })
+    
+    const handleSintoma = (sintoma: keyof SintomasProps) => {
+      setSintomas((prevSintomas) => {
+        return { ...prevSintomas, [sintoma]: !prevSintomas[sintoma] };
+      });
+    };
 
+   
+    const handleEnviar = () => {
+      // Lógica para enviar o formulário
+      // ...
+    
+      // Após enviar o formulário, atualize o estado para ocultar o formulário
+      const teste = (fRCardiaca)
+      
+      //setShowForm(false);
+    };
 
     useEffect(() => {
       let message = '';
@@ -132,7 +167,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
         color = ''
     }
     setMsgResp({Text: message, color: color})
-  }, [{fRespiratoria}])
+  }, [fRespiratoria])
 
 
   useEffect(()=>{
@@ -172,7 +207,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
     let message = '';
     let color = 'black';
 
-    if (parseInt(idade) <=12){
+    if (idade <= 12){
       switch(true){
         case fRCardiaca >=1 && fRCardiaca < 80:
           message = 'Frequência Cardíaca abaixo da normalidade para crianças (BRADICARDÍACO)';
@@ -220,73 +255,185 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
   }, [fRCardiaca])
 
     return (
-        <Form>   
-          <Form.Group controlId="formPressaoArterialSis">
-            <Form.Label>Pressão Arterial Sistólica (SIS)</Form.Label>
-            <Form.Control
-             type="number"
-             placeholder="Digite a pressão arterial Sistólica"
-             value={pressaoSis}
-             onChange={(e) => setPressaoSis(parseInt(e.target.value))}
-               />
-              <span style={{color: msgSis.color}}>{msgSis.Text}</span>
-            
-          </Form.Group>
-
-          <Form.Group controlId="formPressaoArterialDis">
-            <Form.Label><b>Pressão Arterial Diastólica (DIS)</b></Form.Label>
-            <Form.Control
-             type="number" 
-             placeholder="Digite a pressão arterial Diastólica"
-             value={pressaoDis}
-             onChange={(e) => setPressaoDis(parseInt(e.target.value))}
-              />
-              <span style={{color: msgDis.color}}>{msgDis.Text}</span>
-          </Form.Group>
-    
-          <Form.Group controlId="formTemperatura">
-            <Form.Label>Temperatura</Form.Label>
-            <Form.Control
-             type="text"
-             pattern="[0-9]+([,\\.][0-9]+)?"  // Permite números inteiros e decimais com ponto ou vírgula
-             placeholder="Digite a Temperatura"
-             value={temperatura}
-             onChange={(e) =>{
-              const valor = e.target.value;
-              const valorValido = valor.replace(/[^0-9.]/g, '');
-              setTemperatura(valorValido);
-             } }
-              />
-              <span style={{color: msgTemp.color}}>{msgTemp.Text}</span>
-          </Form.Group>
-    
-          <Form.Group controlId="formFrequenciaRespiratoria">
-            <Form.Label>Frequência Respiratória</Form.Label>
-            <Form.Control
-             type="number"
-             placeholder="Digite a Frequência Respiratória"
-             value={fRespiratoria}
-             onChange={(e) => seFRespiratoria(parseInt(e.target.value))}
-              />
-              <span style={{color: msgResp.color}}>{msgResp.Text}</span>
+        
+        <Container>
+          <Form>
+            <Form.Label> <h2> Formulário de Triagem</h2> </Form.Label>
+            <Form.Group controlId="formPressaoArterialSis">
+              <Form.Label>Pressão Arterial Sistólica (SIS)</Form.Label>
+              <Form.Control
+               type="number"
+               placeholder="Digite a pressão arterial Sistólica"
+               value={pressaoSis}
+               onChange={(e) => setPressaoSis(parseInt(e.target.value))}
+                 />
+                <span style={{color: msgSis.color}}>{msgSis.Text}</span>
+          
+            </Form.Group>
+            <Form.Group controlId="formPressaoArterialDis">
+              <Form.Label><b>Pressão Arterial Diastólica (DIS)</b></Form.Label>
+              <Form.Control
+               type="number"
+               placeholder="Digite a pressão arterial Diastólica"
+               value={pressaoDis}
+               onChange={(e) => setPressaoDis(parseInt(e.target.value))}
+                />
+                <span style={{color: msgDis.color}}>{msgDis.Text}</span>
+            </Form.Group>
+            <Form.Group controlId="formTemperatura">
+              <Form.Label>Temperatura</Form.Label>
+              <Form.Control
+               type="text"
+               pattern="[0-9]+([,\.][0-9]+)?"
+               placeholder="Digite a Temperatura"
+               value={temperatura}
+               onChange={(e) =>{
+                const valor = e.target.value;
+                const valorValido = valor.replace(/[^0-9.]/g, '');
+                setTemperatura(valorValido);
+               } }
+                />
+                <span style={{color: msgTemp.color}}>{msgTemp.Text}</span>
+            </Form.Group>
+            <Form.Group controlId="formFrequenciaRespiratoria">
+          
+              <Form.Label>Frequência Respiratória</Form.Label>
+              <Form.Control
+               type="number"
+               placeholder="Digite a Frequência Respiratória"
+               value={fRespiratoria}
+               onChange={(e) => seFRespiratoria(parseInt(e.target.value))}
+                />
+                <span style={{color: msgResp.color}}>{msgResp.Text}</span>
+          
+            </Form.Group>
+            <Form.Group controlId="formFrequenciaCardiaca">
+              <Form.Label>Frequência Cardíaca</Form.Label>
+              <Form.Control
+               type="number"
+               placeholder="Digite a Frequência Cardíaca"
+               value={fRCardiaca}
+               onChange={(e) => setFCardiaca(parseInt(e.target.value))}
+                />
+             
+                <Form.Label> <h2> Marque os sintomas do paciente</h2> </Form.Label>
+               
+                  <Form.Check
+                    inline
+                    type="switch"
+                    id="switch-febre"
+                    label="Febre"
+                    checked = {sintomas.febre}
+                    onChange={() => handleSintoma('febre')}
+                  />
+                  <Form.Check
+                    inline
+                     type="switch"
+                     id="switch-coriza"
+                     label="Coriza"
+                     checked = {sintomas.coriza}
+                     onChange = {() => handleSintoma('coriza')}
+                   />
+         
+       
+                 <Form.Check // prettier-ignore
+                    inline
+                    type="switch"
+                    id="switch-narizE"
+                    label="Nariz entupido"
+                    checked = {sintomas.narizEntupido}
+                    onChange = {() => handleSintoma('narizEntupido')}
+                 />
+                 <Form.Check // prettier-ignore
+                  inline
+                    type="switch"
+                    id="custom-switch"
+                    label="Tosse"
+                    checked = {sintomas.tosse}
+                    onChange = {() => handleSintoma('tosse')}
+                 />
+                 <Form.Check // prettier-ignore
+                    inline
+                    type="switch"
+                    id="switch-cansaco"
+                    label="Cansaço"
+                    checked = {sintomas.cansaco}
+                    onChange = {() => handleSintoma('cansaco')}
+                 />
+                 <Form.Check // prettier-ignore
+                    inline
+                    type="switch"
+                    id="switch-dor-corpo"
+                    label="Dores no corpo"
+                    checked = {sintomas.dorCorpo}
+                     onChange = {() => handleSintoma('dorCorpo')}
+                 />
+                  <Form.Check // prettier-ignore
+                    inline
+                    type="switch"
+                    id="switch-mal-estar"
+                    label="Mal estar geral"
+                    checked = {sintomas.malEstar}
+                    onChange = {() => handleSintoma('malEstar')}
+                 />
+                  <Form.Check // prettier-ignore
+                    inline
+                    type="switch"
+                    id="switch-dor-garganta"
+                    label="Dor de garganta"
+                    checked = {sintomas.dorGarganta}
+                    onChange = {() => handleSintoma('dorGarganta')}
+                 />
+                  <Form.Check // prettier-ignore
+                    inline
+                    type="switch"
+                    id="switch-dif-respirar"
+                    label="Dificuldade de respirar"
+                    checked = {sintomas.dificuldadeRespirar}
+                    onChange = {() => handleSintoma('dificuldadeRespirar')}
+                 />
+                  <Form.Check // prettier-ignore
+                    inline
+                    type="switch"
+                    id="switch-falta-paladar"
+                    label="Fala de paladar"
+                    checked = {sintomas.faltaPaladar}
+                    onChange = {() => handleSintoma('faltaPaladar')}
+                 />
+                    
+                 
+                  <Form.Check // prettier-ignore
+                    inline
+                    type="switch"
+                    id="switch-falta-olfato"
+                    label="Fala de olfato"
+                    checked = {sintomas.faltaOlfato}
+                    onChange = {() => handleSintoma('faltaOlfato')}
+                 />
+                 <Form.Check // prettier-ignore
+                 inline
+                    type="switch"
+                    id="switch-dif-locomocao"
+                    label="Dificuldade de locomoção"
+                    checked = {sintomas.dificuldadeLocomocao}
+                    onChange = {() => handleSintoma('dificuldadeLocomocao')}
+                 />
+                 <Form.Check // prettier-ignore
+                 inline
+                    type="switch"
+                    id="switch-diarreia"
+                    label="Diarreia"
+                    checked = {sintomas.diarreia}
+                    onChange = {() => handleSintoma('diarreia')}
+                 />
               
-          </Form.Group>
-
-          <Form.Group controlId="formFrequenciaCardiaca">
-            <Form.Label>Frequência Cardíaca</Form.Label>
-            <Form.Control
-             type="number"
-             placeholder="Digite a Frequência Cardíaca"
-             value={fRCardiaca}
-             onChange={(e) => setFCardiaca(parseInt(e.target.value))}
-              />
-              <span style={{color: msgCard.color}}> {msgCard.Text}</span>
-              
-          </Form.Group>
-    
-          <Button variant="primary" type="submit">
-            Enviar
-          </Button>
-        </Form>
+                <span style={{color: msgCard.color}}> {msgCard.Text}</span>
+          
+            </Form.Group>
+            <Button variant="primary" type="button" onClick={() => handleEnviar()} >
+              Enviar
+            </Button>
+          </Form>
+        </Container>
       );
 }
