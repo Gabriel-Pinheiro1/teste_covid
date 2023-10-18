@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/services/api';
 
 type formTriagemProps = {
-  idade: number;
+  idade: any;
   id: number
 }
 

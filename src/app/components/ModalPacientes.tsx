@@ -70,10 +70,12 @@ export const ModalPacintes: React.FC = () => {
                 onChange={(e) => setDataNascimento(e.target.value)}
               />
             </Form.Group>
+            
             <Form.Group controlId="formCpf">
               <Form.Label>CPF</Form.Label>
               <CpfInput value={cpf} onChange={handleCpfChange} />
             </Form.Group>
+
             <Form.Group controlId='formTelefone'>
               <Form.Label>Telefone</Form.Label>
                 <PhoneInput

@@ -32,25 +32,25 @@ export const Home: React.FC = () => {
     }
   };
 
-  const handleExcluir = async(pacienteID: number) => {
+  const handleExcluir = async(pacienteID: number, ) => {
     
     try{
       await api.delete("/pacientes/" + pacienteID);
       const updatedPacientes = pacientes.filter((paciente) => paciente.id !== pacienteID);
       setPacientes(updatedPacientes);
     } catch (e: any){
-      console.log("Erro ao excluir paciente", e.message)
+      console.log("Erro ao excluir o resgistro do paciente", e.message)
     }
   }
 
-  const handleAtender = async(pacienteID: number) => {
+  const handleAtender = async(pacienteID: number, rota: string) => {
     try{
       const response = await api.get("/pacientes/" + pacienteID)
       const pacienteInfo = response.data[0]
       console.log(pacienteInfo.id)
-      navigate(`/atendimento/${pacienteInfo.id}`, { state: { paciente: pacienteInfo } });
+      navigate(rota + pacienteID, { state: { paciente: pacienteInfo } });
     } catch (e: any){
-      console.log("Erro ao excluir paciente", e.message)
+      console.log("Erro ao atender o paciente", e.message)
     }
   }
 
@@ -80,7 +80,7 @@ export const Home: React.FC = () => {
           {pacientes.map((paciente) => (
             <tr key={paciente.nome}>
               <td>{paciente.id}</td>
-              <td>{paciente.nome}</td>
+              <td>{paciente.nome}</td> 
               <td>{paciente.cpf}</td>
               <td>{paciente.telefone}</td>
               <td><CalcularIdade data = {paciente.data_nascimento}/></td>
@@ -89,7 +89,10 @@ export const Home: React.FC = () => {
                 <Button variant='danger' onClick={() =>handleExcluir(paciente.id)}><FiTrash /></Button>
               </td>
               <td>
-                <Button variant='primary' onClick={() =>handleAtender(paciente.id)}><FiUser /></Button>
+                <Button variant='primary' onClick={() =>handleAtender(paciente.id, "/atendimento/")}><FiUser /></Button>
+              </td>
+              <td>
+                <Button variant='success' onClick={() =>handleAtender(paciente.id, "/editarPaciente/")}><FiUser /></Button>
               </td>
               
               {/* Adicione mais colunas conforme necessário */}
