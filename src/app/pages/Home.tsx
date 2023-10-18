@@ -19,7 +19,6 @@ export const Home: React.FC = () => {
   const carregarPacientes = async () => {
     try {
       const response = await api.get('/pacientes');
-      //console.log(response)
       setPacientes(response.data.data)
       
     } catch (error: any) {
@@ -47,7 +46,7 @@ export const Home: React.FC = () => {
   const handleAtender = async(pacienteID: number) => {
     try{
       const response = await api.get("/pacientes/" + pacienteID)
-      const pacienteInfo = response.data.data
+      const pacienteInfo = response.data[0]
       console.log(pacienteInfo.id)
       navigate(`/atendimento/${pacienteInfo.id}`, { state: { paciente: pacienteInfo } });
     } catch (e: any){

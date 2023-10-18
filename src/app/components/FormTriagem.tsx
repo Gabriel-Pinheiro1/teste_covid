@@ -2,56 +2,111 @@
 import { useState, useEffect } from 'react';
 import {Form, Button, Col, Row, Container} from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
+import api from '../api/services/api';
 
 type formTriagemProps = {
-  idade: any;
+  idade: number;
+  id: number
 }
 
-export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
-  
-    const [showForm, setShowForm] = useState(true);
+export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
+  console.log(id)
+  const age = parseInt(idade)
+   const navigate = useNavigate();
     const [pressaoSis, setPressaoSis] = useState(0)
     const [pressaoDis, setPressaoDis] = useState(0)
     const [temperatura, setTemperatura] = useState('0')
     const [fRespiratoria, seFRespiratoria] = useState(0)
-    const [fRCardiaca, setFCardiaca] = useState(0)
+    const [fCardiaca, setFCardiaca] = useState(0)
     const [msgSis, setMsgSis] = useState({Text: '', color: 'black'})
     const [msgDis, setMsgDis] = useState({Text: '', color: 'black'})
     const [msgResp, setMsgResp] = useState({Text: '', color: 'black'})
     const [msgTemp, setMsgTemp] = useState({Text: '', color: 'black'})
+    
     const [msgCard, setMsgCard] = useState({Text: '', color: 'black'})
     const [sintomas, setSintomas] = useState<SintomasProps> ({
-      febre: false,
-      coriza: false,
-      narizEntupido: false,
-      cansaco: false,
-      tosse: false,
-      dorCabeca: false,
-      dorCorpo: false,
-      dorGarganta: false,
-      malEstar: false,
-      dificuldadeRespirar: false,
-      dificuldadeLocomocao: false,
-      faltaPaladar: false,
-      faltaOlfato: false,
-      diarreia: false
+      febre: 0,
+      coriza: 0,
+      narizEntupido: 0,
+      cansaco: 0,
+      tosse: 0,
+      dorCabeca: 0,
+      dorCorpo: 0,
+      dorGarganta: 0,
+      malEstar: 0,
+      dificuldadeRespirar: 0,
+      dificuldadeLocomocao: 0,
+      faltaPaladar: 0,
+      faltaOlfato: 0,
+      diarreia: 0
     })
     
     const handleSintoma = (sintoma: keyof SintomasProps) => {
       setSintomas((prevSintomas) => {
-        return { ...prevSintomas, [sintoma]: !prevSintomas[sintoma] };
+        return { ...prevSintomas, [sintoma]:  prevSintomas[sintoma] === 0 ? 1 : 0 };
       });
     };
 
-   
-    const handleEnviar = () => {
-      // Lógica para enviar o formulário
-      // ...
     
-      // Após enviar o formulário, atualize o estado para ocultar o formulário
-      const teste = (fRCardiaca)
+   
+    const handleEnviar = async (e: React.FormEvent) => {
+     
+      const sintomasArray = Object.values(sintomas);
+      const countSintoma = sintomasArray.filter((sintoma) => sintoma === 1).length;
+      const percentualSintomas = (countSintoma / sintomasArray.length) * 100;
+      let condicao = ""
+      if(percentualSintomas < 40){
+
+        condicao = "Sintomas insuficientes"
+        
+      } else if(percentualSintomas < 60){
+        condicao = "Potencial infectado"
+      } else{
+        condicao = "Possível infecatdo"
+        
+        
+      }
+      console.log(condicao)
       
-      //setShowForm(false);
+      e.preventDefault();
+      try{
+        await api.post('/atendimentos',{
+          paciente_id: id,
+          fCardiaca: fCardiaca,
+          fRespiratoria: fRespiratoria,
+          pressaoSis: pressaoSis,
+          pressaoDis: pressaoDis,
+          temperatura: temperatura,
+          febre: sintomas.febre,
+          coriza: sintomas.coriza,
+          nariz_entupido:sintomas.narizEntupido,
+          cansaco:sintomas.cansaco,
+          tosse: sintomas.tosse,
+          dor_cabeca: sintomas.dorCabeca,
+          dor_corpo: sintomas.dorCorpo,
+          dor_garganta: sintomas.dorGarganta,
+          mal_estar: sintomas.malEstar,
+          dificuldade_respirar: sintomas.dificuldadeRespirar,
+          dificuldade_locomocao: sintomas.dificuldadeLocomocao,
+          falta_paladar: sintomas.faltaPaladar,
+          falta_olfato: sintomas.faltaOlfato,
+          diarreia: sintomas.diarreia,
+          condicao_atendimento: condicao
+        },{ headers: { 'Content-Type': 'multipart/form-data',}})
+      } catch(e:any){
+        alert("Erro ao cadastrar atendimento" + e.response.data.message)
+      }
+
+      try{
+        await api.post('/pacientes/' + id, {
+          condicao: condicao,
+          _method: 'patch'
+          
+        },{ headers: { 'Content-Type': 'multipart/form-data'}})
+        navigate('/home')
+      } catch(e:any){
+        alert("Erro ao cadastrar condição do paciente" + e.response.data.message)
+      }
     };
 
     useEffect(() => {
@@ -207,19 +262,19 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
     let message = '';
     let color = 'black';
 
-    if (idade <= 12){
+    if (age <= 12){
       switch(true){
-        case fRCardiaca >=1 && fRCardiaca < 80:
+        case fCardiaca >=1 && fCardiaca < 80:
           message = 'Frequência Cardíaca abaixo da normalidade para crianças (BRADICARDÍACO)';
           color = 'red';
           break;
         
-        case fRCardiaca >= 80 && fRCardiaca <= 130:
+        case fCardiaca >= 80 && fCardiaca <= 130:
           message = 'Frequência Cardíaca dentro da normalidade para crianças (NORMOCARDÍACO)';
           color = 'green';
           break;
 
-        case fRCardiaca > 130:
+        case fCardiaca > 130:
           message = 'Frequência Cardíaca acima da normalidade para crianças (TAQUICARDÍACO)'
           color = 'red';
           break;
@@ -231,17 +286,17 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
         
     } else{
       switch(true){
-        case fRCardiaca >=1 &&  fRCardiaca < 60:
+        case fCardiaca >=1 &&  fCardiaca < 60:
           message = 'Frequência Cardíaca abaixo da normalidade para adultos (BRADICARDÍACO)';
           color = 'red';
           break;
         
-        case fRCardiaca >= 60 && fRCardiaca <= 100:
+        case fCardiaca >= 60 && fCardiaca <= 100:
           message = 'Frequência Cardíaca dentro da normalidade para adultos (NORMOCARDÍACO)';
           color = 'green';
           break;
 
-        case fRCardiaca > 100:
+        case fCardiaca > 100:
           message = 'Frequência Cardíaca acima da normalidade para adultos (TAQUICARDÍACO)'
           color = 'red';
           break;
@@ -252,12 +307,12 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
       } 
     }
     setMsgCard({Text: message, color: color })
-  }, [fRCardiaca])
+  }, [fCardiaca])
 
     return (
         
         <Container>
-          <Form>
+          <Form onSubmit={handleEnviar}>
             <Form.Label> <h2> Formulário de Triagem</h2> </Form.Label>
             <Form.Group controlId="formPressaoArterialSis">
               <Form.Label>Pressão Arterial Sistólica (SIS)</Form.Label>
@@ -312,7 +367,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
               <Form.Control
                type="number"
                placeholder="Digite a Frequência Cardíaca"
-               value={fRCardiaca}
+               value={fCardiaca}
                onChange={(e) => setFCardiaca(parseInt(e.target.value))}
                 />
              
@@ -323,7 +378,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-febre"
                     label="Febre"
-                    checked = {sintomas.febre}
+                    checked = {sintomas.febre === 1}
                     onChange={() => handleSintoma('febre')}
                   />
                   <Form.Check
@@ -331,7 +386,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                      type="switch"
                      id="switch-coriza"
                      label="Coriza"
-                     checked = {sintomas.coriza}
+                     checked = {sintomas.coriza === 1}
                      onChange = {() => handleSintoma('coriza')}
                    />
          
@@ -341,7 +396,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-narizE"
                     label="Nariz entupido"
-                    checked = {sintomas.narizEntupido}
+                    checked = {sintomas.narizEntupido === 1}
                     onChange = {() => handleSintoma('narizEntupido')}
                  />
                  <Form.Check // prettier-ignore
@@ -349,7 +404,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="custom-switch"
                     label="Tosse"
-                    checked = {sintomas.tosse}
+                    checked = {sintomas.tosse === 1}
                     onChange = {() => handleSintoma('tosse')}
                  />
                  <Form.Check // prettier-ignore
@@ -357,7 +412,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-cansaco"
                     label="Cansaço"
-                    checked = {sintomas.cansaco}
+                    checked = {sintomas.cansaco === 1}
                     onChange = {() => handleSintoma('cansaco')}
                  />
                  <Form.Check // prettier-ignore
@@ -365,7 +420,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-dor-corpo"
                     label="Dores no corpo"
-                    checked = {sintomas.dorCorpo}
+                    checked = {sintomas.dorCorpo === 1}
                      onChange = {() => handleSintoma('dorCorpo')}
                  />
                   <Form.Check // prettier-ignore
@@ -373,7 +428,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-mal-estar"
                     label="Mal estar geral"
-                    checked = {sintomas.malEstar}
+                    checked = {sintomas.malEstar === 1}
                     onChange = {() => handleSintoma('malEstar')}
                  />
                   <Form.Check // prettier-ignore
@@ -381,7 +436,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-dor-garganta"
                     label="Dor de garganta"
-                    checked = {sintomas.dorGarganta}
+                    checked = {sintomas.dorGarganta === 1}
                     onChange = {() => handleSintoma('dorGarganta')}
                  />
                   <Form.Check // prettier-ignore
@@ -389,7 +444,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-dif-respirar"
                     label="Dificuldade de respirar"
-                    checked = {sintomas.dificuldadeRespirar}
+                    checked = {sintomas.dificuldadeRespirar === 1}
                     onChange = {() => handleSintoma('dificuldadeRespirar')}
                  />
                   <Form.Check // prettier-ignore
@@ -397,7 +452,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-falta-paladar"
                     label="Fala de paladar"
-                    checked = {sintomas.faltaPaladar}
+                    checked = {sintomas.faltaPaladar === 1}
                     onChange = {() => handleSintoma('faltaPaladar')}
                  />
                     
@@ -407,7 +462,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-falta-olfato"
                     label="Fala de olfato"
-                    checked = {sintomas.faltaOlfato}
+                    checked = {sintomas.faltaOlfato === 1}
                     onChange = {() => handleSintoma('faltaOlfato')}
                  />
                  <Form.Check // prettier-ignore
@@ -415,7 +470,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-dif-locomocao"
                     label="Dificuldade de locomoção"
-                    checked = {sintomas.dificuldadeLocomocao}
+                    checked = {sintomas.dificuldadeLocomocao === 1}
                     onChange = {() => handleSintoma('dificuldadeLocomocao')}
                  />
                  <Form.Check // prettier-ignore
@@ -423,14 +478,14 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade}) => {
                     type="switch"
                     id="switch-diarreia"
                     label="Diarreia"
-                    checked = {sintomas.diarreia}
+                    checked = {sintomas.diarreia === 1}
                     onChange = {() => handleSintoma('diarreia')}
                  />
               
                 <span style={{color: msgCard.color}}> {msgCard.Text}</span>
           
             </Form.Group>
-            <Button variant="primary" type="button" onClick={() => handleEnviar()} >
+            <Button variant="primary" type="submit"  >
               Enviar
             </Button>
           </Form>
