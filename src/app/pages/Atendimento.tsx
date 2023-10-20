@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Card, Table, Button, Container, Row, Col } from "react-bootstrap";
 import { CalcularIdade } from "../components/CalcularIdade";
 import { FormTriagem } from "../components/FormTriagem";
@@ -9,6 +9,7 @@ import { useState } from "react";
 
 
 export const Atendimento = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const pacienteInfo = location.state && location.state.paciente;
     const idade = <CalcularIdade data = {pacienteInfo.data_nascimento}/>
@@ -20,11 +21,24 @@ export const Atendimento = () => {
     try{
       await api.delete('/atendimentos/' + atendimentoId);
 
-        const updatedAtendimento = atendimentos.filter((atendimento: any) => atendimento.id ==! atendimentoId)
+        const updatedAtendimento = atendimentos.filter((atendimento: any) => atendimento.id !== atendimentoId)
         setAtendimentos(updatedAtendimento);
 
     } catch(e: any){
       alert("Erro ao deletar atendimento" + e.response.data.message)
+    }
+  }
+
+  const handleMostrarAtendimento = async(atendimentoID: number) => {
+    try{
+      const response = await api.get('/atendimentos/' + atendimentoID);
+      const atendimentoInfo = response.data[0];
+      console.log(atendimentoInfo);
+      
+      navigate('/verAtendimento/' + atendimentoID, { state: { atendimento: atendimentoInfo } });
+
+    } catch (e: any){
+      alert("Erro ao visualizar atendimento" + e.response.data.message);
     }
   }
 
@@ -81,7 +95,7 @@ export const Atendimento = () => {
                 <Button variant='danger' onClick={()=>handleDeletar(atendimento.id)} >oi</Button>
               </td>
               <td>
-                <Button variant='primary'>oi</Button>
+                <Button variant='primary' onClick={() => handleMostrarAtendimento(atendimento.id)}>oi</Button>
               </td>
               
               {/* Adicione mais colunas conforme necessário */}
