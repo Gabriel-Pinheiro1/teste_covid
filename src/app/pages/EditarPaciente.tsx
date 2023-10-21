@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { CpfInput } from "../components/CpfInput";
 import { PhoneInput } from "../components/PhoneInput";
+import { HeaderNavbar } from "../components/Navbar";
 import api from "../api/services/api";
 
 
@@ -63,63 +64,59 @@ export const EditarPaciente = () =>{
     }
     return(
 
-        <Container>
-           
-            <Form onSubmit={handleEditar}>
-            <Form.Label> <h2> Editar paciente  </h2> </Form.Label>
-
-            <Form.Group controlId="nomePaciente">
-            <Form.Label><strong> Nome </strong></Form.Label>
-              <Form.Control
-               value={nome}
-               onChange={(e) => setNome(e.target.value)}
-                 />
-            </Form.Group>
-
-            <Form.Group controlId="cpfPaciente">
-            <Form.Label><strong>CPF</strong></Form.Label>
-              <CpfInput
-                value={cpf}
-                onChange={handleCpfChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formPressaoArterialSis">
-            <Form.Label><strong>Telefone</strong></Form.Label>
-              <PhoneInput
-                value={telefone}
-                onChange={setTelefone}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formPressaoArterialSis">
-            <Form.Label><strong>Data de nascimento</strong></Form.Label>
-              <Form.Control
-               type="date"
-               value={data_nascimento}
-               onChange={(e) => setDataNascimento(e.target.value)}
-                 />
-            </Form.Group>
-
-            <Form.Group controlId="formPressaoArterialSis">
-            <Form.Label><strong>Foto do paciente</strong></Form.Label>
-              <Form.Control
-               type="file"
-               accept="image/*"
-               onChange={(e) => {
-                const input = e.target as HTMLInputElement;
-                if (input.files) {
-                  setImagem(input.files[0]);
-                }
-              }} 
-                 />
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-              Atualizar
-            </Button>
-
-            </Form>
-        </Container>
+        <div>
+          <HeaderNavbar/>
+          <Container>
+          
+              <Form onSubmit={handleEditar}>
+              <Form.Label> <h2> Editar paciente  </h2> </Form.Label>
+              <Form.Group controlId="nomePaciente">
+              <Form.Label><strong> Nome </strong></Form.Label>
+                <Form.Control
+                 value={nome}
+                 onChange={(e) => setNome(e.target.value)}
+                   />
+              </Form.Group>
+              <Form.Group controlId="cpfPaciente">
+              <Form.Label><strong>CPF</strong></Form.Label>
+                <CpfInput
+                  value={cpf}
+                  onChange={handleCpfChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formPressaoArterialSis">
+              <Form.Label><strong>Telefone</strong></Form.Label>
+                <PhoneInput
+                  value={telefone}
+                  onChange={setTelefone}
+                />
+              </Form.Group>
+              <Form.Group controlId="formPressaoArterialSis">
+              <Form.Label><strong>Data de nascimento</strong></Form.Label>
+                <Form.Control
+                 type="date"
+                 value={data_nascimento}
+                 onChange={(e) => setDataNascimento(e.target.value)}
+                   />
+              </Form.Group>
+              <Form.Group controlId="formPressaoArterialSis">
+              <Form.Label><strong>Foto do paciente</strong></Form.Label>
+                <Form.Control
+                 type="file"
+                 accept="image/*"
+                 onChange={(e) => {
+                  const input = e.target as HTMLInputElement;
+                  if (input.files) {
+                    setImagem(input.files[0]);
+                  }
+                }}
+                   />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Atualizar
+              </Button>
+              </Form>
+          </Container>
+        </div>
     );
 }

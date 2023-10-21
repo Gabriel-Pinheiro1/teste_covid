@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/services/api';
 import { CalcularIdade } from '../components/CalcularIdade';
 import {FiTrash, FiUser} from 'react-icons/fi'
+import { HeaderNavbar } from '../components/Navbar';
 
 
 
@@ -21,14 +22,8 @@ export const Home: React.FC = () => {
       const response = await api.get('/pacientes');
       setPacientes(response.data.data)
       
-    } catch (error: any) {
-      if (error.response) {
-        console.error('Erro na resposta:', error.response.data);
-      } else if (error.request) {
-        console.error('Erro na requisição:', error.request);
-      } else {
-        console.error('Erro ao enviar a requisição:', error.message);
-      }
+    } catch (e: any) {
+      alert("Problemas ao carregar lista de usuários" + e.response.data.message)
     }
   };
 
@@ -60,47 +55,50 @@ export const Home: React.FC = () => {
   }, []); // Chamado uma vez quando o componente é montado
 
   return (
-    <Container >
-      {}
-      <ModalPacintes />
-
-      <Table striped bordered hover responsive = 'sm'>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Telefone</th>
-            <th>Idade</th>
-            <th>Condição</th>
-            {/* Adicione mais colunas conforme necessário */}
-          </tr>
-        </thead>
-        <tbody>
-          {pacientes.map((paciente) => (
-            <tr key={paciente.nome}>
-              <td>{paciente.id}</td>
-              <td>{paciente.nome}</td> 
-              <td>{paciente.cpf}</td>
-              <td>{paciente.telefone}</td>
-              <td><CalcularIdade data = {paciente.data_nascimento}/></td>
-              <td>{paciente.condicao}</td>
-              <td>
-                <Button variant='danger' onClick={() =>handleExcluir(paciente.id)}><FiTrash /></Button>
-              </td>
-              <td>
-                <Button variant='primary' onClick={() =>handleAtender(paciente.id, "/atendimento/")}><FiUser /></Button>
-              </td>
-              <td>
-                <Button variant='success' onClick={() =>handleAtender(paciente.id, "/editarPaciente/")}><FiUser /></Button>
-              </td>
-              
+    
+    <div>
+      <HeaderNavbar/>
+      <Container >
+        <ModalPacintes />
+        <Table striped bordered hover responsive = 'sm'>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Telefone</th>
+              <th>Idade</th>
+              <th>Condição</th>
               {/* Adicione mais colunas conforme necessário */}
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </Container>
+          </thead>
+          <tbody>
+            {pacientes.map((paciente) => (
+              <tr key={paciente.nome}>
+                <td>{paciente.id}</td>
+                <td>{paciente.nome}</td>
+                <td>{paciente.cpf}</td>
+                <td>{paciente.telefone}</td>
+                <td><CalcularIdade data = {paciente.data_nascimento}/></td>
+                <td>{paciente.condicao}</td>
+                <td>
+                  <Button variant='danger' onClick={() =>handleExcluir(paciente.id)}><FiTrash /></Button>
+                </td>
+                <td>
+                  <Button variant='primary' onClick={() =>handleAtender(paciente.id, "/atendimento/")}><FiUser /></Button>
+                </td>
+                <td>
+                  <Button variant='success' onClick={() =>handleAtender(paciente.id, "/editarPaciente/")}><FiUser /></Button>
+                </td>
+      
+                {/* Adicione mais colunas conforme necessário */}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Container>
+    </div>
   );
+  
 };
 
