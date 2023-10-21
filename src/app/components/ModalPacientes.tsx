@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-
 import { Button, Modal, Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import api from '../api/services/api';
 import { CpfInput } from './CpfInput';
 import { PhoneInput } from './PhoneInput';
+import { useSharedState } from '../contexts/StateContext';
 
-export const ModalPacintes: React.FC = () => {
+/*type ModalPacientesProps = {
+  atualizarLista: any
+}*/
+
+export const ModalPacintes: React.FC= () => {
   const [show, setShow] = useState(false);
   const [nome, setNome] = useState('');
   const [data_nascimento, setDataNascimento] = useState('');
@@ -13,6 +17,7 @@ export const ModalPacintes: React.FC = () => {
   const [telefone, setTelefone] = useState('')
   const [imagem, setImagem] = useState<File | null>(null);
   const condicao = 'Não Atendido'
+  const { dispatch } = useSharedState();
 
 
   const handleShow = () => setShow(true);
@@ -24,7 +29,9 @@ export const ModalPacintes: React.FC = () => {
   
 
   const handleSubmit = async (e: React.FormEvent) => {
+    
     e.preventDefault();
+    
     try{
       const response = await api.post('/pacientes',{
         nome: nome,
@@ -35,6 +42,7 @@ export const ModalPacintes: React.FC = () => {
         condicao: condicao,
       }, { headers: { 'Content-Type': 'multipart/form-data',}});
       console.log('Dados enviados com sucesso:', response.data);
+      dispatch({ type: 'PACIENTE_CADASTRADO' });
       handleClose(); // Fecha o modal após o envio
     } catch (e: any) {
       console.error('Erro ao enviar os dados:', e.message);

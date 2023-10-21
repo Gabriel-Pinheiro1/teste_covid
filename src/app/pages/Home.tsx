@@ -6,6 +6,7 @@ import api from '../api/services/api';
 import { CalcularIdade } from '../components/CalcularIdade';
 import {FiTrash, FiUser} from 'react-icons/fi'
 import { HeaderNavbar } from '../components/Navbar';
+import { useSharedState } from '../contexts/StateContext';
 
 
 
@@ -14,6 +15,7 @@ import { HeaderNavbar } from '../components/Navbar';
 export const Home: React.FC = () => {
   const [pacientes, setPacientes] = useState<PacienteProps[]>([]);
   const navigate = useNavigate();
+  const { state } = useSharedState();
 
   // Função para carregar os pacientes da API 
   
@@ -52,14 +54,18 @@ export const Home: React.FC = () => {
   useEffect(() => {
     carregarPacientes();
     
-  }, []); // Chamado uma vez quando o componente é montado
+  }, [state.novoPacienteCadastrado]); 
 
   return (
     
     <div>
+   
       <HeaderNavbar/>
+
       <Container >
+
         <ModalPacintes />
+
         <Table striped bordered hover responsive = 'sm'>
           <thead>
             <tr>
