@@ -6,6 +6,7 @@ import api from "../api/services/api";
 import { useState } from "react";
 import { HeaderNavbar } from "../components/Navbar";
 import {FiTrash, FiUser} from 'react-icons/fi'
+import { FaBook } from 'react-icons/fa';
 
 
 
@@ -103,7 +104,7 @@ export const Atendimento = () => {
                       <td>{idade}</td>
                       <td>{atendimento.condicao_atendimento}</td>
                       <td>
-                         <Button variant='primary' onClick={() => handleMostrarAtendimento(atendimento.id)}><FiUser/></Button>
+                         <Button variant='primary' onClick={() => handleMostrarAtendimento(atendimento.id)}><FaBook/></Button>
                       </td>
              
                       <td>

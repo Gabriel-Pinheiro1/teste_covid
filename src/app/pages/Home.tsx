@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/services/api';
 import { CalcularIdade } from '../components/CalcularIdade';
 import {FiTrash, FiUser} from 'react-icons/fi'
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaPencilAlt } from 'react-icons/fa';
 import { HeaderNavbar } from '../components/Navbar';
 import { useSharedState } from '../contexts/StateContext';
 
@@ -91,7 +91,7 @@ export const Home: React.FC = () => {
                   <Button variant='primary' onClick={() =>handleAtender(paciente.id, "/atendimento/")}><FaArrowRight /></Button>
                 </td>
                 <td>
-                  <Button variant='success' onClick={() =>handleAtender(paciente.id, "/editarPaciente/")}><FiUser /></Button>
+                  <Button variant='success' onClick={() =>handleAtender(paciente.id, "/editarPaciente/")}><FaPencilAlt /></Button>
                 </td>
       
                 <td>
