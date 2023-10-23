@@ -60,7 +60,7 @@ export const Home: React.FC = () => {
     
     <div>
    
-      <HeaderNavbar/>
+      <HeaderNavbar page='home'/>
 
       <Container >
 

@@ -5,9 +5,9 @@ import { CpfInput } from './CpfInput';
 import { PhoneInput } from './PhoneInput';
 import { useSharedState } from '../contexts/StateContext';
 
-/*type ModalPacientesProps = {
-  atualizarLista: any
-}*/
+
+
+
 
 export const ModalPacintes: React.FC= () => {
   const [show, setShow] = useState(false);
@@ -43,18 +43,21 @@ export const ModalPacintes: React.FC= () => {
       }, { headers: { 'Content-Type': 'multipart/form-data',}});
       console.log('Dados enviados com sucesso:', response.data);
       dispatch({ type: 'PACIENTE_CADASTRADO' });
-      handleClose(); // Fecha o modal após o envio
+      handleClose(); 
+
     } catch (e: any) {
-      console.error('Erro ao enviar os dados:', e.response.data.message);
       alert("Erro, ao enviar os dados, por favor revise os parametros passsados");
     }
   };
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Cadastrar Paciente
-      </Button>
+      
+        <Button variant="primary" onClick={handleShow}>
+          Cadastrar Paciente
+       </Button>
+      
+     
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
