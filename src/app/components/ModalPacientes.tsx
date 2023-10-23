@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 import api from '../api/services/api';
 import { CpfInput } from './CpfInput';
 import { PhoneInput } from './PhoneInput';
@@ -45,7 +45,7 @@ export const ModalPacintes: React.FC= () => {
       dispatch({ type: 'PACIENTE_CADASTRADO' });
       handleClose(); // Fecha o modal após o envio
     } catch (e: any) {
-      console.error('Erro ao enviar os dados:', e.message);
+      console.error('Erro ao enviar os dados:', e.response.data.message);
       alert("Erro, ao enviar os dados, por favor revise os parametros passsados");
     }
   };

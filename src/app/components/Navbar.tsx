@@ -1,5 +1,6 @@
 
 import { Container, Navbar, Nav } from 'react-bootstrap';
+import { ModalPacintes } from './ModalPacientes';
 
 
 export const HeaderNavbar = () =>{
@@ -11,6 +12,7 @@ export const HeaderNavbar = () =>{
           <Nav className="me-auto">
             <Nav.Link href="/home">Home</Nav.Link>    
           </Nav>
+          <Nav><ModalPacintes/></Nav>
         </Container>
       </Navbar>
 

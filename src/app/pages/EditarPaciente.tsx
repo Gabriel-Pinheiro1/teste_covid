@@ -16,11 +16,7 @@ export const EditarPaciente = () =>{
     const [cpf, setCpf] = useState(pacienteInfo.cpf);
     const [telefone, setTelefone] = useState(pacienteInfo.telefone)
     const [imagem, setImagem] = useState<File | null>(null);
-    if (imagem === null){
-        console.log("oiii")
-    } else{
-        console.log("tchau")
-    }
+   
 
     const handleCpfChange = (formattedCpf: string) => {
         setCpf(formattedCpf);
@@ -69,7 +65,7 @@ export const EditarPaciente = () =>{
           <Container>
           
               <Form onSubmit={handleEditar}>
-              <Form.Label> <h2> Editar paciente  </h2> </Form.Label>
+              <div className="m-3 text-center"><h1>Editar Paciente</h1></div>
               <Form.Group controlId="nomePaciente">
               <Form.Label><strong> Nome </strong></Form.Label>
                 <Form.Control
@@ -112,7 +108,7 @@ export const EditarPaciente = () =>{
                 }}
                    />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" >
                 Atualizar
               </Button>
               </Form>

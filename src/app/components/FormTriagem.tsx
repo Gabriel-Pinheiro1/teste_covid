@@ -311,10 +311,12 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
 
     return (
         
-        <Container>
-          <Form onSubmit={handleEnviar}>
-            <Form.Label> <h2> Formulário de Triagem</h2> </Form.Label>
-            <Form.Group controlId="formPressaoArterialSis">
+        <Container className="mt-4 ">
+          <Form  onSubmit={handleEnviar}>
+            <div className="text-center">
+              <h2>Formulário de triagem</h2>
+            </div>
+            <Form.Group  controlId="formPressaoArterialSis">
               <Form.Label>Pressão Arterial Sistólica (SIS)</Form.Label>
               <Form.Control
                type="number"
@@ -370,122 +372,146 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                value={fCardiaca}
                onChange={(e) => setFCardiaca(parseInt(e.target.value))}
                 />
-             
-                <Form.Label> <h2> Marque os sintomas do paciente</h2> </Form.Label>
-               
-                  <Form.Check
-                    inline
-                    type="switch"
-                    id="switch-febre"
-                    label="Febre"
-                    checked = {sintomas.febre === 1}
-                    onChange={() => handleSintoma('febre')}
-                  />
-                  <Form.Check
-                    inline
-                     type="switch"
-                     id="switch-coriza"
-                     label="Coriza"
-                     checked = {sintomas.coriza === 1}
-                     onChange = {() => handleSintoma('coriza')}
-                   />
-         
-       
-                 <Form.Check // prettier-ignore
-                    inline
-                    type="switch"
-                    id="switch-narizE"
-                    label="Nariz entupido"
-                    checked = {sintomas.narizEntupido === 1}
-                    onChange = {() => handleSintoma('narizEntupido')}
-                 />
-                 <Form.Check // prettier-ignore
-                  inline
-                    type="switch"
-                    id="custom-switch"
-                    label="Tosse"
-                    checked = {sintomas.tosse === 1}
-                    onChange = {() => handleSintoma('tosse')}
-                 />
-                 <Form.Check // prettier-ignore
-                    inline
-                    type="switch"
-                    id="switch-cansaco"
-                    label="Cansaço"
-                    checked = {sintomas.cansaco === 1}
-                    onChange = {() => handleSintoma('cansaco')}
-                 />
-                 <Form.Check // prettier-ignore
-                    inline
-                    type="switch"
-                    id="switch-dor-corpo"
-                    label="Dores no corpo"
-                    checked = {sintomas.dorCorpo === 1}
-                     onChange = {() => handleSintoma('dorCorpo')}
-                 />
-                  <Form.Check // prettier-ignore
-                    inline
-                    type="switch"
-                    id="switch-mal-estar"
-                    label="Mal estar geral"
-                    checked = {sintomas.malEstar === 1}
-                    onChange = {() => handleSintoma('malEstar')}
-                 />
-                  <Form.Check // prettier-ignore
-                    inline
-                    type="switch"
-                    id="switch-dor-garganta"
-                    label="Dor de garganta"
-                    checked = {sintomas.dorGarganta === 1}
-                    onChange = {() => handleSintoma('dorGarganta')}
-                 />
-                  <Form.Check // prettier-ignore
-                    inline
-                    type="switch"
-                    id="switch-dif-respirar"
-                    label="Dificuldade de respirar"
-                    checked = {sintomas.dificuldadeRespirar === 1}
-                    onChange = {() => handleSintoma('dificuldadeRespirar')}
-                 />
-                  <Form.Check // prettier-ignore
-                    inline
-                    type="switch"
-                    id="switch-falta-paladar"
-                    label="Fala de paladar"
-                    checked = {sintomas.faltaPaladar === 1}
-                    onChange = {() => handleSintoma('faltaPaladar')}
-                 />
-                    
-                 
-                  <Form.Check // prettier-ignore
-                    inline
-                    type="switch"
-                    id="switch-falta-olfato"
-                    label="Fala de olfato"
-                    checked = {sintomas.faltaOlfato === 1}
-                    onChange = {() => handleSintoma('faltaOlfato')}
-                 />
-                 <Form.Check // prettier-ignore
-                 inline
-                    type="switch"
-                    id="switch-dif-locomocao"
-                    label="Dificuldade de locomoção"
-                    checked = {sintomas.dificuldadeLocomocao === 1}
-                    onChange = {() => handleSintoma('dificuldadeLocomocao')}
-                 />
-                 <Form.Check // prettier-ignore
-                 inline
-                    type="switch"
-                    id="switch-diarreia"
-                    label="Diarreia"
-                    checked = {sintomas.diarreia === 1}
-                    onChange = {() => handleSintoma('diarreia')}
-                 />
+                   </Form.Group>
+                
               
-                <span style={{color: msgCard.color}}> {msgCard.Text}</span>
+              
+             
+             <div className="text-center my-6">
+              <h2>Marque os sintomas do paciente</h2>
+            </div>
+               
+                  <Row className="my-3" >
+                    <Col md={6} >
+                      <Form.Group className = " justify-content-center">
+                        <Form.Check
+                        
+                          type="switch"
+                          id="switch-febre"
+                          label="Febre"
+                          checked = {sintomas.febre === 1}
+                          onChange={() => handleSintoma('febre')}
+                        />
+                        <Form.Check
+                        
+                           type="switch"
+                           id="switch-coriza"
+                           label="Coriza"
+                           checked = {sintomas.coriza === 1}
+                           onChange = {() => handleSintoma('coriza')}
+                         />
+                        
+                        
+                          <Form.Check // prettier-ignore
+                        
+                          type="switch"
+                          id="switch-narizE"
+                          label="Nariz entupido"
+                          checked = {sintomas.narizEntupido === 1}
+                          onChange = {() => handleSintoma('narizEntupido')}
+                                         />
+                                         <Form.Check // prettier-ignore
+                        
+                          type="switch"
+                          id="custom-switch"
+                          label="Tosse"
+                          checked = {sintomas.tosse === 1}
+                          onChange = {() => handleSintoma('tosse')}
+                                         />
+                                         <Form.Check // prettier-ignore
+                        
+                          type="switch"
+                          id="switch-cansaco"
+                          label="Cansaço"
+                          checked = {sintomas.cansaco === 1}
+                          onChange = {() => handleSintoma('cansaco')}
+                                         />
+                        <Form.Check // prettier-ignore
+                        
+                          type="switch"
+                          id="switch-dor-corpo"
+                          label="Dores no corpo"
+                          checked = {sintomas.dorCorpo === 1}
+                           onChange = {() => handleSintoma('dorCorpo')}
+                        />
+                        <Form.Check // prettier-ignore
+                        
+                          type="switch"
+                          id="switch-mal-estar"
+                          label="Mal estar geral"
+                          checked = {sintomas.malEstar === 1}
+                          onChange = {() => handleSintoma('malEstar')}
+                         />
+                      </Form.Group>
+                    </Col>
+                  
+                  <Col md={6}>
+                    <Form.Check // prettier-ignore
+                      
+                      type="switch"
+                      id="switch-dor-garganta"
+                      label="Dor de garganta"
+                      checked = {sintomas.dorGarganta === 1}
+                      onChange = {() => handleSintoma('dorGarganta')}
+                                     />
+                    <Form.Check // prettier-ignore
+                      
+                      type="switch"
+                      id="switch-dif-respirar"
+                      label="Dificuldade de respirar"
+                      checked = {sintomas.dificuldadeRespirar === 1}
+                      onChange = {() => handleSintoma('dificuldadeRespirar')}
+                                     />
+                    <Form.Check // prettier-ignore
+                      
+                      type="switch"
+                      id="switch-falta-paladar"
+                      label="Fala de paladar"
+                      checked = {sintomas.faltaPaladar === 1}
+                      onChange = {() => handleSintoma('faltaPaladar')}
+                                     />
+                    
+                    <Form.Check // prettier-ignore
+                      
+                      type="switch"
+                      id="switch-falta-olfato"
+                      label="Fala de olfato"
+                      checked = {sintomas.faltaOlfato === 1}
+                      onChange = {() => handleSintoma('faltaOlfato')}
+                                     />
+                                     <Form.Check // prettier-ignore
+                                     
+                      type="switch"
+                      id="switch-dif-locomocao"
+                      label="Dificuldade de locomoção"
+                      checked = {sintomas.dificuldadeLocomocao === 1}
+                      onChange = {() => handleSintoma('dificuldadeLocomocao')}
+                                     />
+                    <Form.Check // prettier-ignore
+                      
+                      type="switch"
+                      id="switch-diarreia"
+                      label="Diarreia"
+                      checked = {sintomas.diarreia === 1}
+                      onChange = {() => handleSintoma('diarreia')}
+                      />
+
+                    <Form.Check 
+                     
+                      type="switch"
+                      id="switch-dif-cabeca"
+                      label="Dor de cabeça"
+                      checked = {sintomas.dorCabeca === 1}
+                      onChange = {() => handleSintoma('dorCabeca')}
+                      />
+                  </Col>
+
+                </Row>
+              
+                
           
-            </Form.Group>
-            <Button variant="primary" type="submit"  >
+         
+            <Button variant="primary" type="submit" className='text-end' >
               Enviar
             </Button>
           </Form>

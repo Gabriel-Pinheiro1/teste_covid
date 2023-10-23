@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {  Container, Table, Button } from 'react-bootstrap';
-import { ModalPacintes } from '../components/ModalPacientes';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/services/api';
 import { CalcularIdade } from '../components/CalcularIdade';
 import {FiTrash, FiUser} from 'react-icons/fi'
+import { FaArrowRight } from 'react-icons/fa';
 import { HeaderNavbar } from '../components/Navbar';
 import { useSharedState } from '../contexts/StateContext';
 
@@ -64,7 +64,7 @@ export const Home: React.FC = () => {
 
       <Container >
 
-        <ModalPacintes />
+       
 
         <Table striped bordered hover responsive = 'sm'>
           <thead>
@@ -88,15 +88,15 @@ export const Home: React.FC = () => {
                 <td><CalcularIdade data = {paciente.data_nascimento}/></td>
                 <td>{paciente.condicao}</td>
                 <td>
-                  <Button variant='danger' onClick={() =>handleExcluir(paciente.id)}><FiTrash /></Button>
-                </td>
-                <td>
-                  <Button variant='primary' onClick={() =>handleAtender(paciente.id, "/atendimento/")}><FiUser /></Button>
+                  <Button variant='primary' onClick={() =>handleAtender(paciente.id, "/atendimento/")}><FaArrowRight /></Button>
                 </td>
                 <td>
                   <Button variant='success' onClick={() =>handleAtender(paciente.id, "/editarPaciente/")}><FiUser /></Button>
                 </td>
       
+                <td>
+                  <Button variant='danger' onClick={() =>handleExcluir(paciente.id)}><FiTrash /></Button>
+                </td>
                 {/* Adicione mais colunas conforme necessário */}
               </tr>
             ))}

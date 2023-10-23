@@ -1,11 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Card, Table, Button, Container, Row, Col } from "react-bootstrap";
+import {  Table, Button, Container, Row, Col, Figure, Image } from "react-bootstrap";
 import { CalcularIdade } from "../components/CalcularIdade";
 import { FormTriagem } from "../components/FormTriagem";
 import api from "../api/services/api";
-import axios from "axios";
 import { useState } from "react";
 import { HeaderNavbar } from "../components/Navbar";
+import {FiTrash, FiUser} from 'react-icons/fi'
+
 
 
 
@@ -15,7 +16,7 @@ export const Atendimento = () => {
     const pacienteInfo = location.state && location.state.paciente;
     const idade = <CalcularIdade data = {pacienteInfo.data_nascimento}/>
     
-    //const atendimentos = pacienteInfo.atendimentos;
+ 
     const [atendimentos, setAtendimentos] = useState(pacienteInfo.atendimentos)
    
   const handleDeletar = async(atendimentoId: number) => {
@@ -46,63 +47,73 @@ export const Atendimento = () => {
     return (
         <div>
           <HeaderNavbar/>
-          <Container >
-              <Row>
-              <Col>
-              <Card style={{ width: '20rem' }}>
-                <Card.Img variant="" src={`http://localhost:8000/storage/${pacienteInfo.imagem}`} />
-                <Card.Body>
-                  <Card.Title>{pacienteInfo.nome}, {idade}</Card.Title>
-                  <Card.Text>
-                    <hr />
-                    CPF: {pacienteInfo.cpf}
-                    <hr />
-                    Telefone: {pacienteInfo.telefone}
-                    <hr/>
-                    Condição: {pacienteInfo.condicao}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-              </Col>
-              <Col>
-              <FormTriagem idade = {idade} id={pacienteInfo.id}/>
-              </Col>
-          
+          <Container>
+
+          <Container className="bg-primary-subtle ">
+
+              <Row className="text-primary text-center py-3 mt-4">
+                <h1>Infomações do paciente</h1>
+                <hr />
               </Row>
-              <Table striped bordered hover responsive = 'sm'>
-          <thead>
-            <tr>
-              <th>ID da consulta</th>
-              <th>Nome</th>
-              <th>CPF</th>
-              <th>Telefone</th>
-              <th>Idade</th>
-              <th>Condição</th>
-              {/* Adicione mais colunas conforme necessário */}
+
+            <Row>
+             <Col className="d-flex justify-content-center pb-5" >
+               <Image src={`http://localhost:8000/storage/${pacienteInfo.imagem}`} roundedCircle width={250} height={250} />
+            </Col>
+
+             <Col className="pt-5">
+                <p><strong>Nome:</strong> {pacienteInfo.nome}</p>
+                <p><strong>CPF:</strong> {pacienteInfo.cpf}</p>
+                <p><strong>Telefone:</strong> {pacienteInfo.telefone}</p>
+               <p><strong>Idade:</strong> <CalcularIdade data= {pacienteInfo.data_nascimento}/> </p>
+               <p><strong>Condição:</strong> {pacienteInfo.condicao}</p>
+            </Col>
+
+            </Row>
+
+          </Container>
+
+              
+              <Row>
+                <FormTriagem idade = {idade} id={pacienteInfo.id}/>
+              </Row>
+              
+          
+         <Row className="mt-6">
+          <h1 className="mt-3 text-center">Consultas anteriores</h1>
+               
+                     <Table striped bordered hover responsive = 'sm'>
+                     <thead>
+                       <tr>
+            <th>ID da consulta</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Telefone</th>
+            <th>Idade</th>
+            <th>Condição</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       {atendimentos.map((atendimento: any) => (
+            <tr key={atendimento.id}>
+              <td>{atendimento.id}</td>
+              <td>{pacienteInfo.nome}</td>
+              <td>{pacienteInfo.cpf}</td>
+              <td>{pacienteInfo.telefone}</td>
+              <td>{idade}</td>
+              <td>{atendimento.condicao_atendimento}</td>
+              <td>
+                <Button variant='primary' onClick={() => handleMostrarAtendimento(atendimento.id)}><FiUser/></Button>
+              </td>
+             
+              <td>
+                <Button variant='danger' onClick={()=>handleDeletar(atendimento.id)} ><FiTrash/></Button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {atendimentos.map((atendimento: any) => (
-              <tr key={atendimento.id}>
-                <td>{atendimento.id}</td>
-                <td>{pacienteInfo.nome}</td>
-                <td>{pacienteInfo.cpf}</td>
-                <td>{pacienteInfo.telefone}</td>
-                <td>{idade}</td>
-                <td>{atendimento.condicao_atendimento}</td>
-          
-                <td>
-                  <Button variant='danger' onClick={()=>handleDeletar(atendimento.id)} >oi</Button>
-                </td>
-                <td>
-                  <Button variant='primary' onClick={() => handleMostrarAtendimento(atendimento.id)}>oi</Button>
-                </td>
-          
-                {/* Adicione mais colunas conforme necessário */}
-              </tr>
-            ))}
-          </tbody>
-                </Table>
+              ))}
+            </tbody>
+              </Table>
+         </Row>
           </Container>
         </div>
         
