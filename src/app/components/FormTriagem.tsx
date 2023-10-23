@@ -372,7 +372,8 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                value={fCardiaca}
                onChange={(e) => setFCardiaca(parseInt(e.target.value))}
                 />
-                   </Form.Group>
+                 <span style={{color: msgCard.color}}>{msgCard.Text}</span>
+              </Form.Group>
                 
               
               
@@ -402,7 +403,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                          />
                         
                         
-                          <Form.Check // prettier-ignore
+                          <Form.Check 
                         
                           type="switch"
                           id="switch-narizE"
@@ -410,7 +411,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                           checked = {sintomas.narizEntupido === 1}
                           onChange = {() => handleSintoma('narizEntupido')}
                                          />
-                                         <Form.Check // prettier-ignore
+                                         <Form.Check 
                         
                           type="switch"
                           id="custom-switch"
@@ -418,7 +419,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                           checked = {sintomas.tosse === 1}
                           onChange = {() => handleSintoma('tosse')}
                                          />
-                                         <Form.Check // prettier-ignore
+                                         <Form.Check 
                         
                           type="switch"
                           id="switch-cansaco"
@@ -426,7 +427,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                           checked = {sintomas.cansaco === 1}
                           onChange = {() => handleSintoma('cansaco')}
                                          />
-                        <Form.Check // prettier-ignore
+                        <Form.Check 
                         
                           type="switch"
                           id="switch-dor-corpo"
@@ -434,7 +435,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                           checked = {sintomas.dorCorpo === 1}
                            onChange = {() => handleSintoma('dorCorpo')}
                         />
-                        <Form.Check // prettier-ignore
+                        <Form.Check 
                         
                           type="switch"
                           id="switch-mal-estar"
@@ -446,7 +447,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                     </Col>
                   
                   <Col md={6}>
-                    <Form.Check // prettier-ignore
+                    <Form.Check 
                       
                       type="switch"
                       id="switch-dor-garganta"
@@ -454,7 +455,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                       checked = {sintomas.dorGarganta === 1}
                       onChange = {() => handleSintoma('dorGarganta')}
                                      />
-                    <Form.Check // prettier-ignore
+                    <Form.Check 
                       
                       type="switch"
                       id="switch-dif-respirar"
@@ -462,7 +463,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                       checked = {sintomas.dificuldadeRespirar === 1}
                       onChange = {() => handleSintoma('dificuldadeRespirar')}
                                      />
-                    <Form.Check // prettier-ignore
+                    <Form.Check 
                       
                       type="switch"
                       id="switch-falta-paladar"
@@ -471,7 +472,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                       onChange = {() => handleSintoma('faltaPaladar')}
                                      />
                     
-                    <Form.Check // prettier-ignore
+                    <Form.Check 
                       
                       type="switch"
                       id="switch-falta-olfato"
@@ -479,7 +480,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                       checked = {sintomas.faltaOlfato === 1}
                       onChange = {() => handleSintoma('faltaOlfato')}
                                      />
-                                     <Form.Check // prettier-ignore
+                                     <Form.Check 
                                      
                       type="switch"
                       id="switch-dif-locomocao"
@@ -487,7 +488,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({idade, id}) => {
                       checked = {sintomas.dificuldadeLocomocao === 1}
                       onChange = {() => handleSintoma('dificuldadeLocomocao')}
                                      />
-                    <Form.Check // prettier-ignore
+                    <Form.Check 
                       
                       type="switch"
                       id="switch-diarreia"

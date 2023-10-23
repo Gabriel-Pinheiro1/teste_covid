@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import {  Table, Button, Container, Row, Col, Figure, Image } from "react-bootstrap";
+import {  Table, Button, Container, Row, Col, Image } from "react-bootstrap";
 import { CalcularIdade } from "../components/CalcularIdade";
 import { FormTriagem } from "../components/FormTriagem";
 import api from "../api/services/api";
@@ -82,39 +82,39 @@ export const Atendimento = () => {
          <Row className="mt-6">
           <h1 className="mt-3 text-center">Consultas anteriores</h1>
                
-                     <Table striped bordered hover responsive = 'sm'>
-                     <thead>
-                       <tr>
-            <th>ID da consulta</th>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Telefone</th>
-            <th>Idade</th>
-            <th>Condição</th>
-                       </tr>
-                     </thead>
-                     <tbody>
-                       {atendimentos.map((atendimento: any) => (
-            <tr key={atendimento.id}>
-              <td>{atendimento.id}</td>
-              <td>{pacienteInfo.nome}</td>
-              <td>{pacienteInfo.cpf}</td>
-              <td>{pacienteInfo.telefone}</td>
-              <td>{idade}</td>
-              <td>{atendimento.condicao_atendimento}</td>
-              <td>
-                <Button variant='primary' onClick={() => handleMostrarAtendimento(atendimento.id)}><FiUser/></Button>
-              </td>
+            <Table striped bordered hover responsive = 'sm'>
+              <thead>
+                <tr>
+                  <th>ID da consulta</th>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Telefone</th>
+                  <th>Idade</th>
+                  <th>Condição</th>
+                </tr>
+               </thead>
+                <tbody>
+                  {atendimentos.map((atendimento: any) => (
+                    <tr key={atendimento.id}>
+                      <td>{atendimento.id}</td>
+                      <td>{pacienteInfo.nome}</td>
+                      <td>{pacienteInfo.cpf}</td>
+                      <td>{pacienteInfo.telefone}</td>
+                      <td>{idade}</td>
+                      <td>{atendimento.condicao_atendimento}</td>
+                      <td>
+                         <Button variant='primary' onClick={() => handleMostrarAtendimento(atendimento.id)}><FiUser/></Button>
+                      </td>
              
-              <td>
-                <Button variant='danger' onClick={()=>handleDeletar(atendimento.id)} ><FiTrash/></Button>
-              </td>
-            </tr>
-              ))}
+                      <td>
+                        <Button variant='danger' onClick={()=>handleDeletar(atendimento.id)} ><FiTrash/></Button>
+                      </td>
+                   </tr>
+                   ))}
             </tbody>
-              </Table>
+            </Table>
          </Row>
-          </Container>
+      </Container>
         </div>
         
       );
