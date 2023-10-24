@@ -311,7 +311,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({ id }) => {
 
         </Form.Group>
         <Form.Group controlId="formPressaoArterialDis">
-          <Form.Label><b>Pressão Arterial Diastólica (DIS)</b></Form.Label>
+          <Form.Label>Pressão Arterial Diastólica (DIS)</Form.Label>
           <Form.Control
             type="number"
             required

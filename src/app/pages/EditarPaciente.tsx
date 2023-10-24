@@ -61,7 +61,7 @@ export const EditarPaciente = () =>{
           <Container>
           
               <Form onSubmit={handleEditar}>
-              <div className="m-3 text-center"><h1>Editar Paciente</h1></div>
+              <div className="m-3 text-center"><h1 className=' text-primary-emphasis text-center '>Editar Paciente</h1></div>
               <Form.Group controlId="nomePaciente">
               <Form.Label><strong> Nome </strong></Form.Label>
                 <Form.Control
