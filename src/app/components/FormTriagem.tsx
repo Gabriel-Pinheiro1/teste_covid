@@ -456,7 +456,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({ id }) => {
 
               type="switch"
               id="switch-falta-paladar"
-              label="Fala de paladar"
+              label="Falta de paladar"
               checked={sintomas.faltaPaladar === 1}
               onChange={() => handleSintoma('faltaPaladar')}
             />
@@ -465,7 +465,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({ id }) => {
 
               type="switch"
               id="switch-falta-olfato"
-              label="Fala de olfato"
+              label="Falta de olfato"
               checked={sintomas.faltaOlfato === 1}
               onChange={() => handleSintoma('faltaOlfato')}
             />
@@ -503,7 +503,7 @@ export const FormTriagem: React.FC<formTriagemProps> = ({ id }) => {
 
         <div className="d-flex justify-content-end">
           <Button variant="primary" type="submit" className='text-end' >
-            Enviar
+            Finalizar
           </Button>
         </div>
 
