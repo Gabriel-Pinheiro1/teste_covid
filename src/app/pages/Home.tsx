@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {  Container, Table, Button } from 'react-bootstrap';
+import { Container, Table, Button, Row,  } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/services/api';
 import { CalcularIdade } from '../components/CalcularIdade';
-import {FiTrash, FiUser} from 'react-icons/fi'
+import { FiTrash } from 'react-icons/fi'
 import { FaArrowRight, FaPencilAlt } from 'react-icons/fa';
 import { HeaderNavbar } from '../components/Navbar';
 import { useSharedState } from '../contexts/StateContext';
@@ -18,93 +18,97 @@ export const Home: React.FC = () => {
   const { state } = useSharedState();
 
   // Função para carregar os pacientes da API 
-  
+
   const carregarPacientes = async () => {
     try {
       const response = await api.get('/pacientes');
       setPacientes(response.data.data)
-      
+
     } catch (e: any) {
       alert("Problemas ao carregar lista de usuários" + e.response.data.message)
     }
   };
 
-  const handleExcluir = async(pacienteID: number, ) => {
-    
-    try{
+  const handleExcluir = async (pacienteID: number,) => {
+
+    try {
       await api.delete("/pacientes/" + pacienteID);
       const updatedPacientes = pacientes.filter((paciente) => paciente.id !== pacienteID);
       setPacientes(updatedPacientes);
-    } catch (e: any){
+    } catch (e: any) {
       console.log("Erro ao excluir o resgistro do paciente", e.message)
     }
   }
 
-  const handleAtender = async(pacienteID: number, rota: string) => {
-    try{
+  const handleAtender = async (pacienteID: number, rota: string) => {
+    try {
       const response = await api.get("/pacientes/" + pacienteID)
       const pacienteInfo = response.data[0]
       console.log(pacienteInfo.id)
       navigate(rota + pacienteID, { state: { paciente: pacienteInfo } });
-    } catch (e: any){
+    } catch (e: any) {
       console.log("Erro ao atender o paciente", e.message)
     }
   }
 
   useEffect(() => {
     carregarPacientes();
-    
-  }, [state.novoPacienteCadastrado]); 
+
+  }, [state.novoPacienteCadastrado]);
 
   return (
-    
+
     <div>
-   
-      <HeaderNavbar page='home'/>
+
+      <HeaderNavbar page='home' />
 
       <Container >
 
-       
 
-        <Table striped bordered hover responsive = 'sm'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>CPF</th>
-              <th>Telefone</th>
-              <th>Idade</th>
-              <th>Condição</th>
-              {/* Adicione mais colunas conforme necessário */}
-            </tr>
-          </thead>
-          <tbody>
-            {pacientes.map((paciente) => (
-              <tr key={paciente.nome}>
-                <td>{paciente.id}</td>
-                <td>{paciente.nome}</td>
-                <td>{paciente.cpf}</td>
-                <td>{paciente.telefone}</td>
-                <td><CalcularIdade data = {paciente.data_nascimento}/></td>
-                <td>{paciente.condicao}</td>
-                <td>
-                  <Button variant='primary' onClick={() =>handleAtender(paciente.id, "/atendimento/")}><FaArrowRight /></Button>
-                </td>
-                <td>
-                  <Button variant='success' onClick={() =>handleAtender(paciente.id, "/editarPaciente/")}><FaPencilAlt /></Button>
-                </td>
-      
-                <td>
-                  <Button variant='danger' onClick={() =>handleExcluir(paciente.id)}><FiTrash /></Button>
-                </td>
+      <Row>
+        <h1 className=' text-primary-emphasis text-center mt-5'>Pacientes cadastrados</h1>
+        <hr />
+      </Row>
+
+
+        <Row>
+          <Table striped bordered hover responsive='sm'>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Idade</th>
+                <th>Condição</th>
                 {/* Adicione mais colunas conforme necessário */}
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {pacientes.map((paciente) => (
+                <tr key={paciente.nome}>
+                  <td>{paciente.nome}</td>
+                  <td>{paciente.cpf}</td>
+                  <td>{paciente.telefone}</td>
+                  <td><CalcularIdade data={paciente.data_nascimento} /></td>
+                  <td>{paciente.condicao}</td>
+                  <td>
+                    <Button variant='primary' onClick={() => handleAtender(paciente.id, "/atendimento/")}><FaArrowRight /></Button>
+                  </td>
+                  <td>
+                    <Button variant='success' onClick={() => handleAtender(paciente.id, "/editarPaciente/")}><FaPencilAlt /></Button>
+                  </td>
+                  <td>
+                    <Button variant='danger' onClick={() => handleExcluir(paciente.id)}><FiTrash /></Button>
+                  </td>
+                  {/* Adicione mais colunas conforme necessário */}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Row>
       </Container>
     </div>
   );
-  
+
 };
 
