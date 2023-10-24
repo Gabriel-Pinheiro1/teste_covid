@@ -9,7 +9,7 @@ type formTriagemProps = {
 }
 
 export const FormTriagem: React.FC<formTriagemProps> = ({ id }) => {
-  console.log(id)
+  
 
   const navigate = useNavigate();
   const [pressaoSis, setPressaoSis] = useState(0)
@@ -61,13 +61,25 @@ export const FormTriagem: React.FC<formTriagemProps> = ({ id }) => {
     } else if (percentualSintomas < 60) {
       condicao = "Potencial infectado"
     } else {
-      condicao = "Possível infecatdo"
+      condicao = "Possível infectado"
 
 
     }
-    console.log(condicao)
+   
 
     e.preventDefault();
+
+    try {
+      await api.post('/pacientes/' + id, {
+        condicao: condicao,
+        _method: 'patch'
+
+      }, { headers: { 'Content-Type': 'multipart/form-data' } })
+     
+    } catch (e: any) {
+      alert("Erro ao cadastrar condição do paciente" + e.response.data.message)
+    }
+
     try {
       await api.post('/atendimentos', {
         paciente_id: id,
@@ -92,20 +104,12 @@ export const FormTriagem: React.FC<formTriagemProps> = ({ id }) => {
         diarreia: sintomas.diarreia,
         condicao_atendimento: condicao
       }, { headers: { 'Content-Type': 'multipart/form-data', } })
+      navigate('/home')
     } catch (e: any) {
       alert("Erro ao cadastrar atendimento" + e.response.data.message)
     }
 
-    try {
-      await api.post('/pacientes/' + id, {
-        condicao: condicao,
-        _method: 'patch'
 
-      }, { headers: { 'Content-Type': 'multipart/form-data' } })
-      navigate('/home')
-    } catch (e: any) {
-      alert("Erro ao cadastrar condição do paciente" + e.response.data.message)
-    }
   };
 
   useEffect(() => {

@@ -36,7 +36,7 @@ export const Atendimento = () => {
     try {
       const response = await api.get('/atendimentos/' + atendimentoID);
       const atendimentoInfo = response.data[0];
-      console.log(atendimentoInfo);
+     
 
       navigate('/verAtendimento/' + atendimentoID, { state: { atendimento: atendimentoInfo } });
 
@@ -50,7 +50,7 @@ export const Atendimento = () => {
       <HeaderNavbar />
       <Container>
 
-        <Container className="bg-primary-subtle ">
+        <Container className="bg-primary-subtle shadow-md rounded-3 ">
 
           <Row className="text-primary-emphasis text-center py-3 mt-4">
             <h1>Infomações do paciente</h1>
@@ -62,7 +62,7 @@ export const Atendimento = () => {
               <Image src={`http://localhost:8000/storage/${pacienteInfo.imagem}`} roundedCircle width={250} height={250} />
             </Col>
 
-            <Col className="pt-5">
+            <Col className="pt-5 text-center">
               <p><strong>Nome:</strong> {pacienteInfo.nome}</p>
               <p><strong>CPF:</strong> {pacienteInfo.cpf}</p>
               <p><strong>Telefone:</strong> {pacienteInfo.telefone}</p>

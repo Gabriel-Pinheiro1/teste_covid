@@ -16,16 +16,13 @@ export const ModalPacintes: React.FC= () => {
   const [cpf, setCpf] = useState('');
   const [telefone, setTelefone] = useState('')
   const [imagem, setImagem] = useState<File | null>(null);
-  const condicao = 'Não Atendido'
+  const condicao = 'Não atendido'
   const { dispatch } = useSharedState();
 
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-  const handleCpfChange = (formattedCpf: string) => {
-    setCpf(formattedCpf);
-  };
-
+  
   
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,7 +30,7 @@ export const ModalPacintes: React.FC= () => {
     e.preventDefault();
     
     try{
-      const response = await api.post('/pacientes',{
+      await api.post('/pacientes',{
         nome: nome,
         cpf: cpf,
         data_nascimento: data_nascimento,
@@ -41,12 +38,12 @@ export const ModalPacintes: React.FC= () => {
         imagem: imagem,
         condicao: condicao,
       }, { headers: { 'Content-Type': 'multipart/form-data',}});
-      console.log('Dados enviados com sucesso:', response.data);
+     
       dispatch({ type: 'PACIENTE_CADASTRADO' });
       handleClose(); 
 
     } catch (e: any) {
-      alert("Erro, ao enviar os dados, por favor revise os parametros passsados");
+      alert("Erro, ao enviar os dados, por favor revise os parametros passsados" + e.response.data.message);
     }
   };
 
@@ -84,7 +81,7 @@ export const ModalPacintes: React.FC= () => {
             
             <Form.Group controlId="formCpf">
               <Form.Label>CPF</Form.Label>
-              <CpfInput value={cpf} onChange={handleCpfChange} />
+              <CpfInput value={cpf} onChange={setCpf} />
             </Form.Group>
 
             <Form.Group controlId='formTelefone'>

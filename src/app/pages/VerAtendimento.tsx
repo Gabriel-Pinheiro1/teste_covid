@@ -12,7 +12,7 @@ export const VerAtendimento = () => {
   return (
     <div>
       <HeaderNavbar />
-      <Container className="bg-primary-subtle ">
+      <Container className="bg-primary-subtle shadow-md  rounded-3">
 
         <Row className="text-primary-emphasis text-center py-3 mt-4 mb-4">
           <h1>Infomações do paciente</h1>
@@ -101,10 +101,10 @@ export const VerAtendimento = () => {
 
         </Row>
 
-
-
       </Container>
+
      
+
     </div>
   );
 }

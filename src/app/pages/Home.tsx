@@ -22,7 +22,7 @@ export const Home: React.FC = () => {
   const carregarPacientes = async () => {
     try {
       const response = await api.get('/pacientes');
-      setPacientes(response.data.data)
+      setPacientes(response.data[0])
 
     } catch (e: any) {
       alert("Problemas ao carregar lista de usuários" + e.response.data.message)
@@ -36,7 +36,7 @@ export const Home: React.FC = () => {
       const updatedPacientes = pacientes.filter((paciente) => paciente.id !== pacienteID);
       setPacientes(updatedPacientes);
     } catch (e: any) {
-      console.log("Erro ao excluir o resgistro do paciente", e.message)
+    
     }
   }
 
@@ -44,10 +44,10 @@ export const Home: React.FC = () => {
     try {
       const response = await api.get("/pacientes/" + pacienteID)
       const pacienteInfo = response.data[0]
-      console.log(pacienteInfo.id)
+    
       navigate(rota + pacienteID, { state: { paciente: pacienteInfo } });
     } catch (e: any) {
-      console.log("Erro ao atender o paciente", e.message)
+      
     }
   }
 

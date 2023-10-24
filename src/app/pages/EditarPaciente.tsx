@@ -18,10 +18,6 @@ export const EditarPaciente = () =>{
     const [imagem, setImagem] = useState<File | null>(null);
    
 
-    const handleCpfChange = (formattedCpf: string) => {
-        setCpf(formattedCpf);
-      };
-    
     
     const handleEditar = async(e: React.FormEvent) =>{
         e.preventDefault();
@@ -77,7 +73,7 @@ export const EditarPaciente = () =>{
               <Form.Label><strong>CPF</strong></Form.Label>
                 <CpfInput
                   value={cpf}
-                  onChange={handleCpfChange}
+                  onChange={setCpf}
                 />
               </Form.Group>
               <Form.Group controlId="formPressaoArterialSis">
