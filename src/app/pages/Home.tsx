@@ -71,8 +71,8 @@ export const Home: React.FC = () => {
       </Row>
     
     {pacientes.length === 0? 
-      (<p>No momento não existem pacientes cadastrados</p>) :
-       (<p>Número de paciaentes:{pacientes.length}</p>)
+      (<p className=' text-primary-emphasis text-center '>No momento não existem pacientes cadastrados</p>) :
+       (<p className=' text-primary-emphasis text-center'>Número de pacientes: {pacientes.length}</p>)
     }
 
         <Row>
