@@ -69,7 +69,11 @@ export const Home: React.FC = () => {
         <h1 className=' text-primary-emphasis text-center mt-5'>Pacientes cadastrados</h1>
         <hr />
       </Row>
-
+    
+    {pacientes.length === 0? 
+      (<p>No momento não existem pacientes cadastrados</p>) :
+       (<p>Número de paciaentes:{pacientes.length}</p>)
+    }
 
         <Row>
           <Table striped bordered hover responsive='sm'>
@@ -80,7 +84,7 @@ export const Home: React.FC = () => {
                 <th>Telefone</th>
                 <th>Idade</th>
                 <th>Condição</th>
-                {/* Adicione mais colunas conforme necessário */}
+               
               </tr>
             </thead>
             <tbody>
